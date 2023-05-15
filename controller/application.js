@@ -56,6 +56,7 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   let { email, password } = req.body;
+  
   try {
     if (!email || !password) {
       res.json({ message: "enter all data", status: false });
@@ -91,7 +92,30 @@ const login = async (req, res) => {
     res.json({ message: err.message, status: false });
   }
 };
-
+const getDetails = async (req, res) => {
+  let { email } = req.body;
+  
+  try {
+   
+      const users = await db.collection("user").doc(email).get();
+      if (!users.exists) {
+        res.json({
+          msg: "User doesn't exist",
+        });
+      } else {
+        const data = users.data();
+        let token = await jwt.sign(
+          {
+            id: data.email,
+          },
+          config.JWT_TOKEN_KEY
+        );
+      res.json(data)
+    }
+  } catch (err) {
+    res.json({ message: err.message, status: false });
+  }
+};
 const project = async (req, res) => {
   let { title, abstract, keyword, document, groupSubmission } = req.body;
   try {
@@ -197,5 +221,6 @@ module.exports = {
   login,
   project,
   myProject,
+  getDetails,
   projectWithdrawal,
 };
