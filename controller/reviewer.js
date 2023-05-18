@@ -42,7 +42,30 @@ const login = async (req, res) => {
     res.json({ message: err.message, status: false });
   }
 };
-
+const getDetails = async (req, res) => {
+  let { email } = req.body;
+  
+  try {
+   
+      const users = await db.collection("reviewer").doc(email).get();
+      if (!users.exists) {
+        res.json({
+          msg: "reviewer doesn't exist",
+        });
+      } else {
+        const data = users.data();
+        let token = await jwt.sign(
+          {
+            id: data.email,
+          },
+          config.JWT_TOKEN_KEY
+        );
+      res.json(data)
+    }
+  } catch (err) {
+    res.json({ message: err.message, status: false });
+  }
+};
 const signup = async (req, res) => {
   let { firstName, lastName, password, confirmPassword, email, areaOfInterest } = req.body;
   try {

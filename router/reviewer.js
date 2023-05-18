@@ -10,5 +10,7 @@ router.post("/signup", reviewer.signup);
 router.get("/project", auth, reviewer.projects);
 router.get("/reviewer/project", auth, reviewer.project);
 router.post("/approve", reviewer.reviewerApproval);
+router.post("/getDetails/", reviewer.getDetails);
+
 
 module.exports = router;
