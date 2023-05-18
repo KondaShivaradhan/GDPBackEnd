@@ -202,6 +202,7 @@ module.exports = {
   login,
   signup,
   projects,
+  getDetails,
   reviewerApproval,
   project,
 };
