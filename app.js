@@ -9,7 +9,7 @@ const reviewer = require("./router/reviewer");
 const guest = require("./router/guest");
 const meta = require("./router/meta");
 const fileupload = require("express-fileupload");
-
+const student = require("./router/student");
 // security
 app.use(helmet());
 
@@ -24,7 +24,7 @@ app.use(fileupload({ useTempFiles: true }));
 app.get("/", (req, res) => res.send("success"));
 app.use("/api", application);
 app.use("/api", meta);
-
+app.use("/api/student", student);
 app.use("/api/admin", admin);
 app.use("/api/reviewer", reviewer);
 app.use("/api/guest", guest);
